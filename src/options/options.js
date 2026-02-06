@@ -25,7 +25,7 @@ async function init() {
 }
 
 function renderShortcutsList() {
-  shortcutsList.innerHTML = '';
+  shortcutsList.textContent = '';
   
   availableActions.forEach(action => {
     const item = createShortcutItem(action);
@@ -151,11 +151,11 @@ function validateShortcut(input, shortcut) {
 
 async function handleSave() {
   const saveBtn = document.getElementById('save-btn');
-  const originalContent = saveBtn.innerHTML;
+  const originalContent = saveBtn.textContent;
   
   try {
     saveBtn.disabled = true;
-    saveBtn.innerHTML = 'Saving...';
+    saveBtn.textContent = 'Saving...';
     
     const inputs = document.querySelectorAll('.shortcut-input');
     const newShortcuts = {};
@@ -177,7 +177,7 @@ async function handleSave() {
     if (hasInvalid) {
       showStatus('Please fix invalid shortcuts', 'error');
       saveBtn.disabled = false;
-      saveBtn.innerHTML = originalContent;
+      saveBtn.textContent = originalContent;
       return;
     }
     
