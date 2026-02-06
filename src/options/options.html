@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RaiKey Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="options.css">
+</head>
+
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo-wrapper">
+          <img src="../../icons/icon-48.png" alt="RaiKey Logo">
+        </div>
+        <h1>RaiKey</h1>
+      </div>
+
+      <nav>
+        <button class="nav-item active">
+          Shortcuts
+        </button>
+        <button class="nav-item">
+          About
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <span class="version">v1.0.0</span>
+      </div>
+    </aside>
+
+    <main class="content">
+      <div id="view-shortcuts" class="view-section active">
+        <header>
+          <div class="header-text">
+            <h2>Shortcuts</h2>
+            <p>Customize your productivity workflow</p>
+          </div>
+          <div class="header-actions">
+            <button id="reset-btn" class="btn btn-secondary" title="Reset to defaults">
+              Reset
+            </button>
+            <button id="save-btn" class="btn btn-primary">
+              Save Changes
+            </button>
+          </div>
+        </header>
+
+        <div class="shortcuts-grid" id="shortcuts-list">
+        </div>
+      </div>
+
+      <div id="view-about" class="view-section" style="display: none;">
+        <header>
+          <div class="header-text">
+            <h2>About</h2>
+            <p>Information & Contribution</p>
+          </div>
+        </header>
+
+        <div class="about-container">
+          <div class="about-card">
+            <h3>Contribute to RaiKey</h3>
+            <p>RaiKey is an open-source project. If you want to suggest features, report bugs, or contribute to the
+              code, you are welcome!</p>
+            <a href="https://github.com/Raigaa/RaiKey" target="_blank" class="github-link">
+              <i class="fab fa-github"></i> Visit GitHub Repository
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="status-message" class="toast"></div>
+    </main>
+  </div>
+
+  <script src="../storage/settings.js"></script>
+  <script src="options.js"></script>
+</body>
+
+</html>
