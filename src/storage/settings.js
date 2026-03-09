@@ -1,5 +1,5 @@
 const DEFAULT_SETTINGS = {
-  version: '1.0.0',
+  version: '1.1.0',
   shortcuts: {
     'detach-tab': 'detach-tab',
     'quick-clean': 'quick-clean'

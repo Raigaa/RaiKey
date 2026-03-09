@@ -4,16 +4,19 @@
 
 ## Features
 
-### MVP (v1.0.0)
+### Release (v1.1.0)
+- **Quick Clean (New)**: Instantly close tabs matching pre-selected domains (Panic Delete)
+  - Default Shortcut: `Alt+Shift+Q`
 - **Detach Tab**: Instantly detach the active tab into a new window
-- **Default Shortcut**: `Ctrl+Shift+U`
-- **Customization**: Intuitive interface to modify shortcuts
+  - Default Shortcut: `Ctrl+Shift+U`
+- **Duplicate Tab**: Duplicate the current active tab
+  - Default Shortcut: `Alt+Shift+D`
+- **Customization**: Intuitive interface to modify shortcuts and Quick Clean domains
 - **Smart Validation**: Automatic detection of shortcut conflicts
 
 ## Installation
 
-### From Mozilla Add-ons (Recommended)
-*Coming Soon - The extension will be published on the official Mozilla store shortly*
+[Download on Mozilla Add-ons](https://addons.mozilla.org/fr/firefox/addon/raikey/)
 
 ### Manual Installation (Development)
 
@@ -96,8 +99,11 @@ All these permissions are standard for this type of extension and necessary for 
 - [x] Customization Interface
 - [x] Settings Sync
 
+### Version 1.1.0 ✓
+- [x] Duplicate Tab
+- [x] Quick Clean (Panic Delete) Domains
+
 ### Future Versions
-- [ ] Duplicate Tab
 - [ ] Pin/Unpin Tab
 - [ ] Close tabs to the right/left
 - [ ] Group tabs by domain
