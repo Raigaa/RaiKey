@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "RaiKey",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Productivity extension to execute quick actions via custom keyboard shortcuts",
   "icons": {
     "48": "icons/icon-48.png",
@@ -35,7 +35,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "raigaa@raikey.dev",
+      "id": "raikey@raigaa.dev",
       "strict_min_version": "140.0",
       "data_collection_permissions": {
         "required": ["none"]

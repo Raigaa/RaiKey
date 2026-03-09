@@ -1,0 +1,324 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --background: 240 10% 4%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 4%;
+  --card-foreground: 0 0% 98%;
+  --primary: 0 0% 100%;
+  --primary-foreground: 240 10% 4%;
+  --secondary: 240 5% 15%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 5% 15%;
+  --muted-foreground: 240 5% 65%;
+  --accent: 240 5% 15%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5% 15%;
+  --input: 240 5% 15%;
+  --ring: 0 0% 100%;
+  --radius: 0.5rem;
+  --font-sans: 'Outfit', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  width: 900px;
+  height: 600px;
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 220px;
+  border-right: 1px solid hsl(var(--border));
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.logo-wrapper {
+  width: 28px;
+  height: 28px;
+  background: white;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.logo-wrapper img {
+  width: 100%;
+  height: 100%;
+}
+
+.brand h1 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: hsl(var(--muted-foreground));
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: left;
+}
+
+.nav-item:hover {
+  background: hsl(var(--accent));
+  color: white;
+}
+
+.nav-item.active {
+  background: hsl(var(--accent));
+  color: white;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  font-size: 0.7rem;
+  color: hsl(var(--muted-foreground));
+  opacity: 0.5;
+  text-align: center;
+}
+
+.content {
+  flex: 1;
+  padding: 2.5rem;
+  overflow-y: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.header-text h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.header-text p {
+  font-size: 0.85rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background-color: white;
+  color: black;
+}
+
+.btn-primary:hover {
+  background-color: #e5e5e5;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: white;
+  border: 1px solid hsl(var(--border));
+}
+
+.btn-secondary:hover {
+  background: hsl(var(--accent));
+}
+
+.shortcuts-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.shortcut-item {
+  border: 1px solid hsl(var(--border));
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.2s;
+}
+
+.shortcut-item:hover {
+  background: hsla(0, 0%, 100%, 0.02);
+}
+
+.shortcut-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.action-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.action-description {
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.shortcut-input-wrapper {
+  width: 160px;
+}
+
+.shortcut-input {
+  width: 100%;
+  background: transparent;
+  border: 1px solid hsl(var(--border));
+  border-radius: 6px;
+  padding: 0.5rem;
+  color: white;
+  text-align: center;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.shortcut-input:focus {
+  outline: none;
+  border-color: white;
+}
+
+.shortcut-input.recording {
+  border-color: white;
+  background: hsla(0, 0%, 100%, 0.05);
+}
+
+.shortcut-input.valid {
+  border-color: #10b981;
+  color: #10b981;
+}
+
+.shortcut-input.invalid {
+  border-color: hsl(var(--destructive));
+  color: hsl(var(--destructive));
+}
+
+.about-card {
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  padding: 2rem;
+  text-align: center;
+}
+
+.about-card p {
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: white;
+  color: black;
+  text-decoration: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: opacity 0.2s;
+}
+
+.github-link:hover {
+  opacity: 0.9;
+}
+
+.repo-url {
+  margin-top: 1rem;
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: hsl(var(--muted-foreground));
+  opacity: 0.3;
+}
+
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #111;
+  border: 1px solid hsl(var(--border));
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transform: translateY(200%);
+  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  z-index: 1000;
+}
+
+.toast.show {
+  transform: translateY(0);
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 10px;
+}
