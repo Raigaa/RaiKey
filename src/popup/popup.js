@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const detachBtn = document.getElementById('detach-btn');
   const detailsElement = document.getElementById('detach-shortcut');
+  const duplicateBtn = document.getElementById('duplicate-btn');
+  const duplicateDetailsElement = document.getElementById('duplicate-shortcut');
   const settingsBtn = document.getElementById('settings-btn');
 
   try {
@@ -11,9 +13,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
       detailsElement.textContent = 'Unbound';
     }
+
+    const duplicateCommand = commands.find(c => c.name === 'duplicate-tab');
+    if (duplicateCommand && duplicateCommand.shortcut) {
+      duplicateDetailsElement.textContent = duplicateCommand.shortcut;
+    } else {
+      duplicateDetailsElement.textContent = 'Unbound';
+    }
   } catch (err) {
     console.error('Failed to load shortcuts:', err);
     detailsElement.textContent = '';
+    duplicateDetailsElement.textContent = '';
   }
 
   detachBtn.addEventListener('click', async () => {
@@ -35,6 +45,29 @@ document.addEventListener('DOMContentLoaded', async () => {
         detachBtn.style.backgroundColor = '';
         detachBtn.style.color = '';
         detachBtn.querySelector('.text').textContent = 'Detach Tab';
+      }, 3000);
+    }
+  });
+
+  duplicateBtn.addEventListener('click', async () => {
+    try {
+      const response = await browser.runtime.sendMessage({ type: 'executeAction', actionId: 'duplicate-tab' });
+      
+      if (response && response.success === false) {
+        throw new Error(response.error || 'Unknown error');
+      }
+      
+      window.close();
+    } catch (error) {
+      console.error('Error sending duplicate command:', error);
+      duplicateBtn.style.backgroundColor = 'hsl(var(--destructive))';
+      duplicateBtn.style.color = 'hsl(var(--destructive-foreground))';
+      duplicateBtn.querySelector('.text').textContent = error.message.substring(0, 20) + '...';
+      
+      setTimeout(() => {
+        duplicateBtn.style.backgroundColor = '';
+        duplicateBtn.style.color = '';
+        duplicateBtn.querySelector('.text').textContent = 'Duplicate Tab';
       }, 3000);
     }
   });

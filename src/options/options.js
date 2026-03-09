@@ -260,7 +260,8 @@ function showStatus(message, type) {
 
 function getActionDisplayName(actionId) {
   const names = {
-    'detach-tab': 'Detach Tab'
+    'detach-tab': 'Detach Tab',
+    'duplicate-tab': 'Duplicate Tab'
   };
   return names[actionId] || actionId;
 }

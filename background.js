@@ -38,10 +38,31 @@ async function detachTab() {
   }
 }
 
+async function duplicateTab() {
+  try {
+    const tabs = await browser.tabs.query({ active: true, lastFocusedWindow: true });
+    
+    if (tabs.length === 0) {
+      throw new Error('No active tab found');
+    }
+    
+    const currentTab = tabs[0];
+    await browser.tabs.duplicate(currentTab.id);
+    
+    console.log(`[RaiKey] Tab duplicated successfully: ${currentTab.id}`);
+    
+  } catch (error) {
+    console.error('[RaiKey] Error duplicating tab:', error);
+    notifyError('Error duplicating tab');
+    throw error;
+  }
+}
+
 const DEFAULT_SETTINGS = {
   version: '1.0.0',
   shortcuts: {
-    'detach-tab': 'detach-tab'
+    'detach-tab': 'detach-tab',
+    'duplicate-tab': 'duplicate-tab'
   },
   customShortcuts: {}
 };
@@ -64,7 +85,8 @@ async function loadSettings() {
 }
 
 const ACTION_REGISTRY = {
-  'detach-tab': detachTab
+  'detach-tab': detachTab,
+  'duplicate-tab': duplicateTab
 };
 
 async function executeAction(actionId) {
@@ -107,11 +129,18 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
   
   if (message.type === 'getAvailableActions') {
-    const actions = Object.keys(ACTION_REGISTRY).map(id => ({
-      id: id,
-      name: id === 'detach-tab' ? 'Detach Tab' : id,
-      description: id === 'detach-tab' ? 'Sends the current tab to a new window' : ''
-    }));
+    const actions = Object.keys(ACTION_REGISTRY).map(id => {
+      let name = id;
+      let description = '';
+      if (id === 'detach-tab') {
+        name = 'Detach Tab';
+        description = 'Sends the current tab to a new window';
+      } else if (id === 'duplicate-tab') {
+        name = 'Duplicate Tab';
+        description = 'Duplicates the current active tab';
+      }
+      return { id, name, description };
+    });
     sendResponse({ actions });
     return false;
   }
