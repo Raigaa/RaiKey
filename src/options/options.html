@@ -27,6 +27,9 @@
           Shortcuts
         </button>
         <button class="nav-item">
+          Quick Clean
+        </button>
+        <button class="nav-item">
           About
         </button>
       </nav>
@@ -54,6 +57,31 @@
         </header>
 
         <div class="shortcuts-grid" id="shortcuts-list">
+        </div>
+      </div>
+
+      <div id="view-quick-clean" class="view-section" style="display: none;">
+        <header>
+          <div class="header-text">
+            <h2>Quick Clean</h2>
+            <p>Define domains that should be instantly closed when the Quick Clean shortcut is pressed.</p>
+          </div>
+          <div class="header-actions">
+            <button id="quick-clean-save-btn" class="btn btn-primary">
+              Save Domains
+            </button>
+          </div>
+        </header>
+
+        <div class="domain-manager">
+          <div class="domain-input-group">
+            <input type="text" id="new-domain-input" placeholder="e.g. reddit.com, youtube.com" class="domain-input">
+            <button id="add-domain-btn" class="btn btn-secondary">Add</button>
+          </div>
+          
+          <div class="domain-list" id="domain-list">
+            <!-- domains will be populated here -->
+          </div>
         </div>
       </div>
 

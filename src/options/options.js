@@ -6,6 +6,12 @@ const saveBtn = document.getElementById('save-btn');
 const resetBtn = document.getElementById('reset-btn');
 const statusMessage = document.getElementById('status-message');
 
+// Quick Clean Elements
+const domainList = document.getElementById('domain-list');
+const newDomainInput = document.getElementById('new-domain-input');
+const addDomainBtn = document.getElementById('add-domain-btn');
+const quickCleanSaveBtn = document.getElementById('quick-clean-save-btn');
+
 async function init() {
   try {
     currentSettings = await loadSettings();
@@ -17,10 +23,97 @@ async function init() {
       defaultShortcut: cmd.shortcut
     }));
     
-    renderShortcutsList();    
+    renderShortcutsList();
+    renderDomainList();
   } catch (error) {
     console.error('[RaiKey Options] Initialization error:', error);
     showStatus('Error loading settings', 'error');
+  }
+}
+
+// Quick Clean Domain Management
+function renderDomainList() {
+  domainList.innerHTML = '';
+  const domains = currentSettings.quickCleanDomains || [];
+
+  if (domains.length === 0) {
+    const emptyState = document.createElement('div');
+    emptyState.className = 'empty-state';
+    emptyState.textContent = 'No domains configured. Add a domain to get started.';
+    domainList.appendChild(emptyState);
+    return;
+  }
+
+  domains.forEach((domain, index) => {
+    const item = document.createElement('div');
+    item.className = 'domain-item';
+    
+    const textSpan = document.createElement('span');
+    textSpan.className = 'domain-text';
+    textSpan.textContent = domain;
+    
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'btn-remove';
+    removeBtn.innerHTML = '<i class="fas fa-trash"></i>';
+    removeBtn.title = 'Remove domain';
+    removeBtn.onclick = () => removeDomain(index);
+
+    item.appendChild(textSpan);
+    item.appendChild(removeBtn);
+    domainList.appendChild(item);
+  });
+}
+
+function addDomain() {
+  const value = newDomainInput.value.trim().toLowerCase();
+  if (!value) return;
+
+  // Basic validation (remove http://, https://, trailing slashes if user pasted a full URL)
+  let cleanDomain = value;
+  try {
+    if (cleanDomain.startsWith('http://') || cleanDomain.startsWith('https://')) {
+      cleanDomain = new URL(cleanDomain).hostname;
+    }
+  } catch (e) {
+    // If URL parsing fails, just use the trimmed string
+  }
+  
+  if (!currentSettings.quickCleanDomains) {
+    currentSettings.quickCleanDomains = [];
+  }
+
+  if (currentSettings.quickCleanDomains.includes(cleanDomain)) {
+    showStatus('Domain already exists in the list', 'error');
+    return;
+  }
+
+  currentSettings.quickCleanDomains.push(cleanDomain);
+  newDomainInput.value = '';
+  renderDomainList();
+}
+
+function removeDomain(index) {
+  if (currentSettings.quickCleanDomains && currentSettings.quickCleanDomains.length > index) {
+    currentSettings.quickCleanDomains.splice(index, 1);
+    renderDomainList();
+  }
+}
+
+async function handleQuickCleanSave() {
+  const originalContent = quickCleanSaveBtn.textContent;
+  
+  try {
+    quickCleanSaveBtn.disabled = true;
+    quickCleanSaveBtn.textContent = 'Saving...';
+    
+    await saveSettings(currentSettings);
+    showStatus('Domains saved successfully', 'success');
+  } catch (error) {
+    console.error('[RaiKey Options] Save error:', error);
+    showStatus('Error saving domains', 'error');
+  } finally {
+    quickCleanSaveBtn.disabled = false;
+    quickCleanSaveBtn.textContent = originalContent;
   }
 }
 
@@ -261,18 +354,28 @@ function showStatus(message, type) {
 function getActionDisplayName(actionId) {
   const names = {
     'detach-tab': 'Detach Tab',
-    'duplicate-tab': 'Duplicate Tab'
+    'duplicate-tab': 'Duplicate Tab',
+    'quick-clean': 'Quick Clean'
   };
   return names[actionId] || actionId;
 }
 saveBtn.addEventListener('click', handleSave);
 resetBtn.addEventListener('click', handleReset);
+addDomainBtn.addEventListener('click', addDomain);
+quickCleanSaveBtn.addEventListener('click', handleQuickCleanSave);
+newDomainInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    addDomain();
+  }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   init();  
   const navItems = document.querySelectorAll('.nav-item');
   const views = {
     'Shortcuts': document.getElementById('view-shortcuts'),
+    'Quick Clean': document.getElementById('view-quick-clean'),
     'About': document.getElementById('view-about')
   };
   navItems.forEach(item => {

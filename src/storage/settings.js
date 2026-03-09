@@ -1,8 +1,10 @@
 const DEFAULT_SETTINGS = {
   version: '1.0.0',
   shortcuts: {
-    'detach-tab': 'detach-tab'
+    'detach-tab': 'detach-tab',
+    'quick-clean': 'quick-clean'
   },
+  quickCleanDomains: [],
   customShortcuts: {
   }
 };

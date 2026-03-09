@@ -58,6 +58,53 @@ async function duplicateTab() {
   }
 }
 
+async function quickClean() {
+  try {
+    const settings = await loadSettings();
+    const domainsToClean = settings.quickCleanDomains || [];
+    
+    if (domainsToClean.length === 0) {
+      console.log('[RaiKey] Quick Clean requested, but no domains are configured.');
+      return;
+    }
+
+    const allTabs = await browser.tabs.query({});
+    const tabsToClose = [];
+
+    for (const tab of allTabs) {
+      if (!tab.url) continue;
+      
+      try {
+        const urlObj = new URL(tab.url);
+        const host = urlObj.hostname;
+        
+        const shouldClose = domainsToClean.some(domain => {
+          const cleanDomain = domain.trim().toLowerCase();
+          return host === cleanDomain || host.endsWith('.' + cleanDomain);
+        });
+
+        if (shouldClose) {
+          tabsToClose.push(tab.id);
+        }
+      } catch (e) {
+        console.error('[RaiKey] Error cleaning tab');
+      }
+    }
+
+    if (tabsToClose.length > 0) {
+      await browser.tabs.remove(tabsToClose);
+      console.log(`[RaiKey] Quick Clean closed ${tabsToClose.length} tabs matching configured domains.`);
+    } else {
+      console.log('[RaiKey] Quick Clean executed, but no matching tabs found.');
+    }
+    
+  } catch (error) {
+    console.error('[RaiKey] Error during quick clean:', error);
+    notifyError('Error executing Quick Clean');
+    throw error;
+  }
+}
+
 const DEFAULT_SETTINGS = {
   version: '1.0.0',
   shortcuts: {
@@ -86,7 +133,8 @@ async function loadSettings() {
 
 const ACTION_REGISTRY = {
   'detach-tab': detachTab,
-  'duplicate-tab': duplicateTab
+  'duplicate-tab': duplicateTab,
+  'quick-clean': quickClean
 };
 
 async function executeAction(actionId) {
@@ -138,6 +186,9 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       } else if (id === 'duplicate-tab') {
         name = 'Duplicate Tab';
         description = 'Duplicates the current active tab';
+      } else if (id === 'quick-clean') {
+        name = 'Quick Clean';
+        description = 'Closes all tabs matching defined domains';
       }
       return { id, name, description };
     });

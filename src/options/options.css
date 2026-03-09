@@ -315,6 +315,79 @@ header {
   transform: translateY(0);
 }
 
+.domain-manager {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.domain-input-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.domain-input {
+  flex: 1;
+  background: transparent;
+  border: 1px solid hsl(var(--border));
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  color: white;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+}
+
+.domain-input:focus {
+  outline: none;
+  border-color: white;
+}
+
+.domain-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.domain-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border: 1px solid hsl(var(--border));
+  border-radius: 6px;
+  background: hsla(0, 0%, 100%, 0.02);
+}
+
+.domain-text {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.btn-remove {
+  background: transparent;
+  color: hsl(var(--muted-foreground));
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.btn-remove:hover {
+  color: hsl(var(--destructive));
+  background: hsla(0, 84%, 60%, 0.1);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.9rem;
+  border: 1px dashed hsl(var(--border));
+  border-radius: 8px;
+}
+
 ::-webkit-scrollbar {
   width: 4px;
 }

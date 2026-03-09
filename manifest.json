@@ -26,6 +26,12 @@
         "default": "Alt+Shift+D"
       },
       "description": "Duplicate current tab"
+    },
+    "quick-clean": {
+      "suggested_key": {
+        "default": "Alt+Shift+Q"
+      },
+      "description": "Quick Clean (Close specific domains)"
     }
   },
   "action": {

@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const detailsElement = document.getElementById('detach-shortcut');
   const duplicateBtn = document.getElementById('duplicate-btn');
   const duplicateDetailsElement = document.getElementById('duplicate-shortcut');
+  const quickCleanBtn = document.getElementById('quick-clean-btn');
+  const quickCleanDetailsElement = document.getElementById('quick-clean-shortcut');
   const settingsBtn = document.getElementById('settings-btn');
 
   try {
@@ -20,10 +22,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
       duplicateDetailsElement.textContent = 'Unbound';
     }
+
+    const quickCleanCommand = commands.find(c => c.name === 'quick-clean');
+    if (quickCleanCommand && quickCleanCommand.shortcut) {
+      quickCleanDetailsElement.textContent = quickCleanCommand.shortcut;
+    } else {
+      quickCleanDetailsElement.textContent = 'Unbound';
+    }
   } catch (err) {
     console.error('Failed to load shortcuts:', err);
     detailsElement.textContent = '';
     duplicateDetailsElement.textContent = '';
+    quickCleanDetailsElement.textContent = '';
   }
 
   detachBtn.addEventListener('click', async () => {
@@ -68,6 +78,29 @@ document.addEventListener('DOMContentLoaded', async () => {
         duplicateBtn.style.backgroundColor = '';
         duplicateBtn.style.color = '';
         duplicateBtn.querySelector('.text').textContent = 'Duplicate Tab';
+      }, 3000);
+    }
+  });
+
+  quickCleanBtn.addEventListener('click', async () => {
+    try {
+      const response = await browser.runtime.sendMessage({ type: 'executeAction', actionId: 'quick-clean' });
+      
+      if (response && response.success === false) {
+        throw new Error(response.error || 'Unknown error');
+      }
+      
+      window.close();
+    } catch (error) {
+      console.error('Error sending quick clean command:', error);
+      quickCleanBtn.style.backgroundColor = 'hsl(var(--destructive))';
+      quickCleanBtn.style.color = 'hsl(var(--destructive-foreground))';
+      quickCleanBtn.querySelector('.text').textContent = error.message.substring(0, 20) + '...';
+      
+      setTimeout(() => {
+        quickCleanBtn.style.backgroundColor = '';
+        quickCleanBtn.style.color = '';
+        quickCleanBtn.querySelector('.text').textContent = 'Quick Clean';
       }, 3000);
     }
   });
